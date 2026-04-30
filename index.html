@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MegaJet OS Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;800&display=swap');
+        body { font-family: 'JetBrains+Mono', monospace; background-color: #020617; color: #f8fafc; }
+        .tech-panel { background: linear-gradient(180deg, #0f172a 0%, #020617 100%); border: 1px solid #1e293b; }
+        .neon-blue { border: 1px solid #3b82f6; box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); }
+        .neon-amber { border: 1px solid #f59e0b; box-shadow: 0 0 10px rgba(245, 158, 11, 0.3); }
+        @keyframes pulse-red { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.9); } }
+        .system-status { animation: pulse-red 2s infinite; }
+    </style>
+</head>
+<body class="h-screen flex flex-col p-6">
+
+    <header class="flex justify-between items-center border-b border-slate-800 pb-4 mb-10">
+        <div>
+            <h1 class="text-lg font-extrabold tracking-tighter">MEGAJET <span class="text-blue-500">OS</span></h1>
+            <p class="text-[9px] text-slate-500 uppercase font-bold tracking-[0.2em]">Diagnostic Matrix V4.0</p>
+        </div>
+        <div id="light" class="w-4 h-4 rounded-full bg-red-600 system-status shadow-[0_0_10px_#dc2626]"></div>
+    </header>
+
+    <div id="login-zone" class="flex-1 flex flex-col justify-center max-w-sm mx-auto w-full">
+        <label class="text-[10px] text-slate-500 uppercase tracking-widest mb-2 ml-1">Terminal Auth Required</label>
+        <input type="password" id="pin-input" placeholder="PASSCODE" class="w-full bg-slate-900 border border-slate-700 p-6 rounded-xl text-center text-3xl tracking-[0.5em] focus:neon-blue focus:outline-none transition-all mb-4 placeholder:text-slate-800">
+        <button onclick="auth()" class="w-full bg-blue-600 hover:bg-blue-500 py-5 rounded-xl font-black text-sm uppercase tracking-widest active:scale-95 transition-transform">Initialize System</button>
+    </div>
+
+    <div id="dash-zone" class="hidden flex-1 flex flex-col space-y-6">
+        <div class="tech-panel p-5 rounded-2xl border-l-4 border-l-blue-500">
+            <span class="text-[10px] text-slate-500 uppercase">Operator Session</span>
+            <p id="op-name" class="text-xl font-bold text-white tracking-tight">---</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 flex-1">
+            <button class="tech-panel neon-blue rounded-2xl flex flex-col items-center justify-center active:bg-blue-900/20 transition-all">
+                <svg class="w-10 h-10 text-blue-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <span class="text-[10px] font-bold uppercase tracking-widest">AR Diagnostic</span>
+            </button>
+            <button class="tech-panel neon-amber rounded-2xl flex flex-col items-center justify-center active:bg-amber-900/20 transition-all">
+                <svg class="w-10 h-10 text-amber-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                <span class="text-[10px] font-bold uppercase tracking-widest">Log Fault</span>
+            </button>
+        </div>
+
+        <button onclick="location.reload()" class="py-4 text-slate-600 text-[10px] font-bold uppercase tracking-[0.4em]">Terminate Link</button>
+    </div>
+
+    <script>
+        const CODES = { "1214": "Lead Tech", "1001": "Cade", "1000": "Csmall" };
+        function auth() {
+            const input = document.getElementById('pin-input');
+            const user = CODES[input.value];
+            if (user) {
+                document.getElementById('op-name').innerText = user;
+                document.getElementById('login-zone').classList.add('hidden');
+                document.getElementById('dash-zone').classList.remove('hidden');
+                const light = document.getElementById('light');
+                light.classList.replace('bg-red-600', 'bg-blue-400');
+                light.style.boxShadow = "0 0 15px #60a5fa";
+            } else {
+                input.style.borderColor = "#dc2626";
+                setTimeout(() => { input.style.borderColor = ""; input.value = ""; }, 500);
+            }
+        }
+    </script>
+</body>
+</html>
+
